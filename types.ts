@@ -44,6 +44,14 @@ export interface GameState {
   isGameOver: boolean;
 }
 
+export interface GameStats {
+  totalGames: number;
+  totalWins: number;
+  bestMoves: number | null;
+  fastestTime: number | null;
+  longestTime: number | null;
+}
+
 export type Selection = {
   source: 'tableau' | 'waste' | 'foundation' | 'stock';
   pileIndex?: number;

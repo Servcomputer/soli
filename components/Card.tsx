@@ -6,22 +6,27 @@ import { SuitIcon, SUIT_COLORS, getRankLabel } from '../constants';
 interface CardProps {
   card: CardType;
   isSelected?: boolean;
-  onClick?: () => void;
+  isDragging?: boolean;
+  onClick?: (e: React.MouseEvent | React.PointerEvent) => void;
+  onPointerDown?: (e: React.PointerEvent) => void;
   className?: string;
   backTheme?: CardBackTheme;
   speed?: GameSpeed;
 }
 
-const Card: React.FC<CardProps> = ({ card, isSelected, onClick, className = "", backTheme = 'blue', speed = 1 }) => {
-  // Map speed factor to CSS transition duration (ms)
-  // Standard (1.0) = 200ms
-  // Turbo (2.0) = 100ms
-  // Instant (4.0) = 50ms
-  // Relaxed (0.5) = 400ms
+const Card: React.FC<CardProps> = ({ 
+  card, 
+  isSelected, 
+  isDragging,
+  onClick, 
+  onPointerDown,
+  className = "", 
+  backTheme = 'blue', 
+  speed = 1 
+}) => {
   const duration = Math.round(200 / speed);
 
-  // Base classes for both front and back
-  const baseClasses = `relative w-full aspect-[5/7] rounded-sm md:rounded-lg shadow-md md:shadow-xl flex flex-col cursor-pointer transition-all select-none ${className}`;
+  const baseClasses = `relative w-full aspect-[5/7] rounded-sm md:rounded-lg shadow-md md:shadow-xl flex flex-col cursor-grab active:cursor-grabbing transition-all select-none touch-none ${className}`;
 
   if (!card.isFaceUp) {
     const themeClasses = {
@@ -43,8 +48,9 @@ const Card: React.FC<CardProps> = ({ card, isSelected, onClick, className = "", 
     return (
       <div 
         onClick={onClick}
-        style={{ transitionDuration: `${duration}ms` }}
-        className={`${baseClasses} ${themeClasses[backTheme]} border-[1px] md:border-2 hover:-translate-y-1`}
+        onPointerDown={onPointerDown}
+        style={{ transitionDuration: isDragging ? '0ms' : `${duration}ms` }}
+        className={`${baseClasses} ${themeClasses[backTheme]} border-[1px] md:border-2 ${!isDragging && 'hover:-translate-y-1'}`}
       >
         <div className={`w-full h-full border-2 md:border-4 border-black/20 rounded-sm md:rounded-lg ${patternClasses[backTheme]} flex items-center justify-center`}>
            <div className="opacity-10 md:opacity-20 transform -rotate-12 scale-110 md:scale-150">
@@ -60,9 +66,14 @@ const Card: React.FC<CardProps> = ({ card, isSelected, onClick, className = "", 
   return (
     <div 
       onClick={onClick}
-      style={{ transitionDuration: `${duration}ms` }}
+      onPointerDown={onPointerDown}
+      style={{ 
+        transitionDuration: isDragging ? '0ms' : `${duration}ms`,
+        opacity: isDragging ? 0.7 : 1,
+        zIndex: isDragging ? 1000 : 'auto',
+      }}
       className={`${baseClasses} bg-white border-[1px] border-gray-200 p-0.5 md:p-1.5 
-        ${isSelected ? 'ring-2 md:ring-4 ring-yellow-400 scale-105 -translate-y-1 md:-translate-y-2 z-50' : 'hover:-translate-y-1'}`}
+        ${isSelected ? 'ring-2 md:ring-4 ring-yellow-400 scale-105 -translate-y-1 md:-translate-y-2 z-50' : !isDragging ? 'hover:-translate-y-1' : ''}`}
     >
       <div className={`flex flex-col items-center leading-none ${colorClass}`}>
         <span className="text-[10px] md:text-sm font-bold">{getRankLabel(card.rank)}</span>

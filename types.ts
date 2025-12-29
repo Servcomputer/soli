@@ -61,3 +61,11 @@ export type Selection = {
   cardIndex?: number;
   suit?: Suit;
 } | null;
+
+export interface DragState {
+  source: Selection;
+  cards: Card[];
+  startPos: { x: number; y: number };
+  currentPos: { x: number; y: number };
+  offset: { x: number; y: number };
+}

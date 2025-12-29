@@ -1,10 +1,16 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { GameState, Rank, Suit } from "../types";
+import { GameState } from "../types";
 
 export const getAIHint = async (state: GameState): Promise<string> => {
-  // Create a new instance right before the call to ensure the latest API key is used.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Acesso seguro à chave de API para evitar "process is not defined"
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : (window as any).API_KEY;
+  
+  if (!apiKey) {
+    throw new Error("MODEL_NOT_FOUND"); // Força o usuário a selecionar uma chave via UI
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const tableauDesc = state.tableau.map((pile, i) => {
     const faceUp = pile.filter(c => c.isFaceUp).map(c => `${c.rank} of ${c.suit}`).join(', ');
@@ -37,11 +43,11 @@ export const getAIHint = async (state: GameState): Promise<string> => {
       }
     });
 
-    // Access .text property directly (not a method).
     return response.text || "Draw a card from the stock.";
   } catch (error: any) {
     console.error("Gemini Error:", error);
-    if (error?.message?.includes("NOT_FOUND") || error?.message?.includes("entity was not found")) {
+    // Erros 404 ou 403 geralmente indicam problema com a chave/modelo
+    if (error?.message?.includes("NOT_FOUND") || error?.status === 404 || error?.status === 403) {
       throw new Error("MODEL_NOT_FOUND");
     }
     return "The AI is currently unavailable. Try again later.";

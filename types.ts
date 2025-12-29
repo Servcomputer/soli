@@ -22,6 +22,9 @@ export enum Rank {
   KING = 13
 }
 
+export type CardBackTheme = 'blue' | 'red' | 'green' | 'black' | 'gold';
+export type GameSpeed = 0.5 | 1 | 2 | 4;
+
 export interface Card {
   id: string;
   suit: Suit;

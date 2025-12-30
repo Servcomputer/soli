@@ -324,7 +324,7 @@ const App: React.FC = () => {
         </div>
 
         <h1 className={`hidden sm:block text-xl md:text-3xl font-black italic tracking-tighter ${isNeonMode ? 'font-neon text-white neon-text-cyan' : 'text-zinc-800'}`}>
-          {isNeonMode ? 'NEON ROYAL' : 'ROYAL SOLITAIRE'}
+          RADIANT SOLITAIRE
         </h1>
 
         <div className="flex gap-2 md:gap-4">

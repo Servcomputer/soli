@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Royal Solitaire</title>
+  <title>Royal Solitaire</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap');
@@ -13,7 +13,15 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       overflow: hidden;
+      transition: background-color 0.5s ease;
+    }
+
+    body.neon-mode {
       background-color: #030308;
+    }
+
+    body.classic-mode {
+      background-color: #1b5e20;
     }
 
     .font-neon {
@@ -28,17 +36,17 @@
       text-shadow: 0 0 5px #00f2ff, 0 0 10px #00f2ff, 0 0 20px #00f2ff;
     }
 
-    .card-glass {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-      backdrop-filter: blur(4px);
-    }
-
-    .grid-bg {
+    .grid-bg-neon {
       background-image: 
         linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
       background-size: 50px 50px;
       background-position: center center;
+    }
+
+    .felt-bg-classic {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 4px 4px;
     }
 
     @keyframes pulse-glow {
@@ -64,7 +72,7 @@
 }
 </script>
 </head>
-<body class="text-white select-none grid-bg">
+<body class="text-white select-none neon-mode grid-bg-neon">
   <div id="root"></div>
   <script type="module" src="index.tsx"></script>
 </body>

@@ -2,11 +2,18 @@
 import React from 'react';
 import { Suit } from './types';
 
-export const SUIT_COLORS = {
-  [Suit.HEARTS]: 'text-[#ff007f]', // Neon Pink
+export const SUIT_COLORS_NEON = {
+  [Suit.HEARTS]: 'text-[#ff007f]',
   [Suit.DIAMONDS]: 'text-[#ff007f]',
-  [Suit.CLUBS]: 'text-[#00f2ff]', // Neon Cyan
+  [Suit.CLUBS]: 'text-[#00f2ff]',
   [Suit.SPADES]: 'text-[#00f2ff]',
+};
+
+export const SUIT_COLORS_CLASSIC = {
+  [Suit.HEARTS]: 'text-[#d32f2f]',
+  [Suit.DIAMONDS]: 'text-[#d32f2f]',
+  [Suit.CLUBS]: 'text-[#000000]',
+  [Suit.SPADES]: 'text-[#000000]',
 };
 
 export const SuitIcon: React.FC<{ suit: Suit; className?: string }> = ({ suit, className = "w-6 h-6" }) => {

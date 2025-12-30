@@ -3,10 +3,10 @@ import React from 'react';
 import { Suit } from './types';
 
 export const SUIT_COLORS = {
-  [Suit.HEARTS]: 'text-red-600',
-  [Suit.DIAMONDS]: 'text-red-600',
-  [Suit.CLUBS]: 'text-gray-900',
-  [Suit.SPADES]: 'text-gray-900',
+  [Suit.HEARTS]: 'text-[#ff007f]', // Neon Pink
+  [Suit.DIAMONDS]: 'text-[#ff007f]',
+  [Suit.CLUBS]: 'text-[#00f2ff]', // Neon Cyan
+  [Suit.SPADES]: 'text-[#00f2ff]',
 };
 
 export const SuitIcon: React.FC<{ suit: Suit; className?: string }> = ({ suit, className = "w-6 h-6" }) => {

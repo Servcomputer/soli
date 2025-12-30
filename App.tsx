@@ -47,7 +47,6 @@ const App: React.FC = () => {
     } else {
       document.body.classList.remove('neon-mode', 'grid-bg-neon');
       document.body.classList.add('classic-mode', 'felt-bg-classic');
-      // Fix: Aligned with user request, classic mode background is always green (#1b5e20)
       document.body.style.backgroundColor = '#1b5e20';
     }
   }, [isNeonMode]);
@@ -306,48 +305,54 @@ const App: React.FC = () => {
     : "bg-white/90 border-zinc-200 shadow-md text-zinc-900";
 
   const hudLabelClasses = isNeonMode ? "text-cyan-400 font-neon neon-text-cyan" : "text-zinc-500 font-bold";
-  const hudValueClasses = isNeonMode ? "font-neon" : "font-bold text-zinc-900";
+  const hudValueClasses = isNeonMode ? "font-neon tabular-nums" : "font-bold text-zinc-900 tabular-nums";
 
   return (
     <div className="h-screen w-screen flex flex-col items-center p-2 md:p-6 overflow-hidden">
-      {/* HUD */}
-      <div className={`w-full max-w-5xl flex justify-between items-center mb-4 md:mb-8 border p-3 md:p-5 rounded-2xl backdrop-blur-xl z-[50] transition-colors ${hudClasses}`}>
-        <div className="flex gap-4 md:gap-8">
+      {/* HUD - Uses flexbox with equal-weighted spacers to keep title centered without overlapping */}
+      <div className={`w-full max-w-5xl flex items-center justify-between mb-4 md:mb-8 border p-3 md:p-5 rounded-2xl backdrop-blur-xl z-[50] transition-colors ${hudClasses}`}>
+        {/* Left Section: Stats */}
+        <div className="flex-1 flex gap-3 md:gap-8 justify-start overflow-hidden">
           <div className="flex flex-col">
-            <span className={`text-[10px] md:text-xs uppercase tracking-widest ${hudLabelClasses}`}>Moves</span>
-            <span className={`text-sm md:text-2xl ${hudValueClasses}`}>{gameState.movesCount}</span>
+            <span className={`text-[8px] md:text-xs uppercase tracking-widest ${hudLabelClasses}`}>Moves</span>
+            <span className={`text-xs md:text-2xl ${hudValueClasses}`}>{gameState.movesCount}</span>
           </div>
           <div className="flex flex-col">
-            <span className={`text-[10px] md:text-xs uppercase tracking-widest ${isNeonMode ? 'text-pink-500 font-neon neon-text-pink' : 'text-zinc-500 font-bold'}`}>Time</span>
-            <span className={`text-sm md:text-2xl ${hudValueClasses}`}>{formatTime(currentTime)}</span>
+            <span className={`text-[8px] md:text-xs uppercase tracking-widest ${isNeonMode ? 'text-pink-500 font-neon neon-text-pink' : 'text-zinc-500 font-bold'}`}>Time</span>
+            <span className={`text-xs md:text-2xl ${hudValueClasses}`}>{formatTime(currentTime)}</span>
           </div>
         </div>
 
-        <h1 className={`hidden sm:block text-xl md:text-3xl font-black italic tracking-tighter ${isNeonMode ? 'font-neon text-white neon-text-cyan' : 'text-zinc-800'}`}>
-          RADIANT SOLITAIRE
-        </h1>
+        {/* Center Section: Title */}
+        <div className="flex-none px-2 md:px-8 text-center max-w-[40%] md:max-w-none">
+          <h1 className={`text-sm sm:text-lg md:text-3xl font-black italic tracking-tighter uppercase ${isNeonMode ? 'font-neon text-white neon-text-cyan' : 'text-zinc-800'}`}>
+            RADIANT SOLITAIRE
+          </h1>
+        </div>
 
-        <div className="flex gap-2 md:gap-4">
+        {/* Right Section: Buttons */}
+        <div className="flex-1 flex gap-1.5 md:gap-4 justify-end">
           <button 
             onClick={() => setIsNeonMode(!isNeonMode)} 
-            className={`p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'}`}
+            className={`p-1.5 md:p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'}`}
             title={isNeonMode ? "Mudar para Modo Clássico" : "Mudar para Modo Neon"}
           >
             {isNeonMode ? (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
             ) : (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
             )}
           </button>
 
-          <button onClick={() => setShowThemes(true)} className={`p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'}`} title="Themes">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+          <button onClick={() => setShowThemes(true)} className={`p-1.5 md:p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-zinc-100 border-zinc-300 text-zinc-700 hover:bg-zinc-200'}`} title="Themes">
+            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
           </button>
 
-          <button onClick={() => setSoundEnabled(!soundEnabled)} className={`p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white' : 'bg-zinc-100 border-zinc-300 text-zinc-700'}`}>
-            {soundEnabled ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg> : <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>}
+          <button onClick={() => setSoundEnabled(!soundEnabled)} className={`p-1.5 md:p-2 rounded-xl border transition-all ${isNeonMode ? 'bg-white/5 border-white/10 text-white' : 'bg-zinc-100 border-zinc-300 text-zinc-700'}`}>
+            {soundEnabled ? <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg> : <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>}
           </button>
-          <button onClick={handleNewGame} className={`px-4 py-2 text-xs md:text-sm font-black rounded-xl uppercase transition-all ${isNeonMode ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_15px_rgba(8,145,178,0.5)] font-neon' : 'bg-zinc-800 hover:bg-zinc-700 text-white'}`}>Reset</button>
+          
+          <button onClick={handleNewGame} className={`px-2 md:px-4 py-1.5 md:py-2 text-[10px] md:text-sm font-black rounded-xl uppercase transition-all ${isNeonMode ? 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_15px_rgba(8,145,178,0.5)] font-neon' : 'bg-zinc-800 hover:bg-zinc-700 text-white'}`}>Reset</button>
         </div>
       </div>
 

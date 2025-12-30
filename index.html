@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Radiant Solitaire</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='4' y='3' width='16' height='18' rx='2' fill='%23050508' stroke='%2300f2ff' stroke-width='2'/><path d='M12 15.35l-1.45-1.32C8.4 12.36 7 10.28 7 8.5 7 7.42 7.42 6.5 8.5 6.5c0.74 0 1.41 0.41 1.5 1.09 0.09-0.68 0.76-1.09 1.5-1.09 1.08 0 1.5 0.92 1.5 2 0 1.78-1.4 3.86-3.55 5.54L12 15.35z' fill='%23ff007f'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -15,6 +15,7 @@
       margin: 0;
       overflow: hidden;
       transition: background-color 0.5s ease;
+      touch-action: manipulation;
     }
 
     body.neon-mode {
@@ -30,18 +31,18 @@
     }
 
     .neon-text-pink {
-      text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f;
+      text-shadow: 0 0 5px #ff007f, 0 0 10px #ff007f;
     }
     
     .neon-text-cyan {
-      text-shadow: 0 0 5px #00f2ff, 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+      text-shadow: 0 0 5px #00f2ff, 0 0 10px #00f2ff;
     }
 
     .grid-bg-neon {
       background-image: 
         linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-      background-size: 50px 50px;
+      background-size: 30px 30px;
       background-position: center center;
     }
 
@@ -50,14 +51,12 @@
       background-size: 4px 4px;
     }
 
-    @keyframes pulse-glow {
-      0% { opacity: 0.5; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.02); }
-      100% { opacity: 0.5; transform: scale(1); }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
     }
-
-    .animate-glow {
-      animation: pulse-glow 3s infinite ease-in-out;
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 <script type="importmap">
